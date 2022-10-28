@@ -58,9 +58,14 @@ class VOCAug(_BaseDataset):
     PASCAL VOC Segmentation dataset with extra annotations
     """
 
-    def __init__(self, year=2012, **kwargs):
+    def __init__(self, year=2012, label_root='', **kwargs):
         self.year = year
         super(VOCAug, self).__init__(**kwargs)
+
+        if label_root:
+            self.label_root = label_root
+        else:
+            self.label_root = self.root + '/SegmentationClassAug'
 
     def _set_files(self):
         self.root = osp.join(self.root, "VOC{}".format(self.year))
@@ -70,7 +75,7 @@ class VOCAug(_BaseDataset):
                 self.root, "ImageSets/SegmentationAug", self.split + ".txt"
             )
             file_list = tuple(open(file_list, "r"))
-            file_list = [id_.rstrip().split(" ") for id_ in file_list]
+            file_list = [id_.rstrip().replace("/SegmentationClassAug","").split(" ") for id_ in file_list]
             self.files, self.labels = list(zip(*file_list))
         else:
             raise ValueError("Invalid split name: {}".format(self.split))
@@ -79,7 +84,7 @@ class VOCAug(_BaseDataset):
         # Set paths
         image_id = self.files[index].split("/")[-1].split(".")[0]
         image_path = osp.join(self.root, self.files[index][1:])
-        label_path = osp.join(self.root, self.labels[index][1:])
+        label_path = osp.join(self.label_root, self.labels[index][1:])
         # Load an image
         image = cv2.imread(image_path, cv2.IMREAD_COLOR).astype(np.float32)
         label = np.asarray(Image.open(label_path), dtype=np.int32)

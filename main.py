@@ -112,10 +112,11 @@ def train(config_path, cuda):
     CONFIG = OmegaConf.load(config_path)
     device = get_device(cuda)
     torch.backends.cudnn.benchmark = True
-
+    
     # Dataset
     dataset = get_dataset(CONFIG.DATASET.NAME)(
         root=CONFIG.DATASET.ROOT,
+        label_root=getattr(CONFIG.DATASET, 'GT_ROOT', ''),
         split=CONFIG.DATASET.SPLIT.TRAIN,
         ignore_label=CONFIG.DATASET.IGNORE_LABEL,
         mean_bgr=(CONFIG.IMAGE.MEAN.B, CONFIG.IMAGE.MEAN.G, CONFIG.IMAGE.MEAN.R),

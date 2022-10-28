@@ -38,3 +38,5 @@ python main.py crf \
 
 # Scores with CRF on 4 metrics are saved as
 #   data/scores/${DATASET}/deeplabv2_resnet101_msc/*/scores_crf.json
+
+cat data/scores/${DATASET}/deeplabv2_resnet101_msc/*/scores_crf.json

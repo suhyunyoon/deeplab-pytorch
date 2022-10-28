@@ -4,8 +4,9 @@ EXP:
 
 DATASET:
     NAME: vocaug
-    ROOT: /media/kazuto1011/Extra/VOCdevkit
+    ROOT: ../../dataset/VOC/VOCdevkit
     LABELS: ./data/datasets/voc12/labels.txt
+    GT_ROOT: # PATH OF PSEUDO LABEL, Remove otherwise
     N_CLASSES: 21
     IGNORE_LABEL: 255
     SCALES: [0.5, 0.75, 1.0, 1.25, 1.5]
@@ -31,7 +32,8 @@ MODEL:
     NAME: DeepLabV2_ResNet101_MSC
     N_BLOCKS: [3, 4, 23, 3]
     ATROUS_RATES: [6, 12, 18, 24]
-    INIT_MODEL: data/models/coco/deeplabv1_resnet101/caffemodel/deeplabv1_resnet101-coco.pth
+    INIT_MODEL: data/models/voc12/deeplabv2_resnet101_msc/caffemodel/deeplabv2_resnet101_msc-vocaug.pth
+    # data/models/coco/deeplabv1_resnet101/caffemodel/deeplabv1_resnet101-coco.pth
 
 SOLVER:
     BATCH_SIZE:
